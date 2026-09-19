@@ -1,49 +1,68 @@
-# Dogfight — Lab 01
+# Dogfight — Labs 1–2
 
-A small canvas flight game built to make the JavaScript event loop and a fixed-timestep game loop visible.
+Canvas game demonstrating a fixed-timestep game loop and an entity model based on JavaScript objects, prototypes, classes, and composition.
 
-## Run it
+## Run
 
-Requires Node 24 (see `.nvmrc`).
+Node 24 is expected (`.nvmrc`). In PowerShell where execution policy blocks `npm.ps1`, use:
 
-```bash
-npm install
-npm run dev
+```powershell
+npm.cmd install
+npm.cmd run dev
 ```
 
-Use **Left/Right Arrow** to rotate, **Up Arrow** to thrust, and **R** to reset. The HUD reports fixed simulation steps per second, render frames per second, and the latest frame duration.
+Controls: **← / →** rotate, **↑** thrust, **Space** fires, **R** restarts. Destroy asteroids for points; collect **R** (rapid fire) and **S** (shield) pickups. A red asteroid has the reusable homing behaviour.
 
-## Design
+## Lab 2 implementation
 
-- `src/loop.js` runs a `requestAnimationFrame` loop with a 1/60 s accumulator. Frame deltas are clamped to 250 ms, preventing a long hitch from causing an unbounded catch-up loop.
-- `src/sim/` is deterministic game logic: it has no Canvas or DOM dependency. Each simulation tick receives exactly the same `dt`.
-- Rendering blends the previous and current ship state using `alpha = accumulator / step`. Angles use shortest-path interpolation, avoiding a full spin across the `-π` / `π` boundary.
-- Canvas backing pixels follow `devicePixelRatio`; CSS dimensions remain in normal device-independent pixels.
+`Vector2` has pure operations (`add`, `sub`, `scale`, `rotate`, etc.): they return a new vector rather than changing their argument. `addInPlace` and `scaleInPlace` are deliberately named mutable hot-path alternatives.
 
-## Experiments (M4)
+`Entity` owns shared data (`id`, `pos`, `vel`, `angle`, `radius`, `kind`, `alive`) and its static private `#id` sequence. `Ship extends Entity` is the only inheritance relationship needed for gameplay. `Ship` keeps `#hp` private; other code can only read it with `ship.hp` and ask it to receive damage.
 
-These baseline measurements were made on a 60 Hz display with the production game unchanged. Exact values vary by machine and browser.
+`World` owns `Map<id, Entity>`, is iterable, and provides lazy `ofKind(kind)`. `despawn` marks an entity dead; `World.step` updates, resolves collisions, then sweeps dead non-ship entities. This avoids altering the collection while the simulation iteration is in progress. The circle collision pass lives in `sim/collision.js` and is intentionally simple O(n²), so a spatial hash can replace it later.
 
-### 1. Synchronous 100 ms render block
+## `this` bug: demonstration and fix
 
-Adding `while (performance.now() < started + 100) {}` on every 60th render made the ship visibly jump and produced one roughly 100 ms frame each second. FPS dipped to about 54–56 and the simulation briefly caught up using several 16.67 ms updates. The browser cannot paint, process input, or run another callback until the current JavaScript call returns: all of them share the main thread and its run-to-completion call stack.
+This is wrong:
 
-### 2. `setInterval(frame, 16)` instead of rAF
-
-For a 10-second foreground run, `setInterval` averaged about 62 callbacks/s, with a typical frame delta near 16 ms but occasional 20–32 ms jitter. `requestAnimationFrame` stayed near 60 fps and painted in sync with the display. In a background tab, rAF paused; timer callbacks were heavily throttled and resumed with a large gap. rAF is preferred because it is display-aligned, avoids unnecessary background rendering, and provides a paint-ready timestamp.
-
-### 3. Variable timestep under 6× CPU throttling
-
-Replacing the accumulator with a single `simulate(realDt)` per render produces a different post-5-second position when thrust is held under CPU throttling: the larger per-frame `dt` changes drag integration and can overshoot collision/wrap boundaries. With the fixed 1/60 s loop, the same recorded input sequence advances the same number of simulation steps and ends at the same position; rendering speed only affects interpolation.
-
-## Quality checks
-
-```bash
-npm run lint
-npm run format:check
-npm run build
+```js
+window.addEventListener("keydown", ship.fire);
 ```
 
-## Event-loop note
+It passes a function reference. The browser calls it with `this` set to the event target (or `undefined` in a plain strict-mode call), not the `Ship`, so `this.cooldown` and `this.alive` break.
 
-After a task finishes, the browser drains microtasks before it can render or take the next task. `requestAnimationFrame` runs in the rendering opportunity after tasks and microtasks, immediately before paint. A promise callback therefore runs before an already-ready timer callback; neither can interrupt synchronous JavaScript currently on the call stack.
+The game fixes this by keeping the keyboard listener inside `createInput`, then calling `this.fire(world)` from `Ship.update`. This preserves implicit binding: the object to the left of the dot is the ship.
+
+Alternatives are `() => ship.fire(world)` (clear but creates a wrapper), `ship.fire.bind(ship)` (permanently binds, but creates another function that is awkward to remove as a listener), and an arrow class field `fire = () => …` (lexically captures the instance but allocates one function per ship instead of sharing a prototype method).
+
+## Composition instead of a class tree
+
+The tempting inheritance design is `Entity → MovingEntity → Bullet → HomingBullet` and separately `Entity → MovingEntity → Asteroid → HomingAsteroid`; a pickup would need another incompatible branch. It duplicates behaviour and becomes brittle as soon as a new combination appears.
+
+Instead, each entity has a `components` object. Homing is plain data:
+
+```js
+entity.components.homing = { targetId, speed, turn };
+```
+
+`updateHoming` reads that component, so it works unchanged on either a bullet or asteroid. `Pickup` is stationary but carries `components.pickup = { type, ttl }`; the collision system checks for that component rather than requiring a pickup to be a kind of ship. Ship weapons and shields use the same approach. This lets features combine without deeper `extends` chains.
+
+## Prototype-chain diagram
+
+```txt
+ship instance → Ship.prototype → Entity.prototype → Object.prototype → null
+
+Ship (constructor) → Entity (constructor) → Function.prototype → Object.prototype → null
+```
+
+For `ship.update`, JavaScript checks the ship's own properties, then finds `update` on `Ship.prototype`. That method calls `super.update`, which resolves to `Entity.prototype.update`. No methods are copied into each ship.
+
+## Lab 1 notes
+
+The loop uses `requestAnimationFrame`, a clamped 1/60 s accumulator, and interpolation between `previous` and current state. Simulation is fixed at 60 steps/s, while rendering adapts to display refresh rate and the DPR-aware canvas stays sharp on high-density displays.
+
+### Experiments
+
+1. A 100 ms synchronous busy wait every 60th render produces a visible jump and a roughly 100 ms frame: running JavaScript blocks input and paint on the same main thread.
+2. `setInterval(frame, 16)` produces timer jitter and is throttled in a background tab; rAF is display-aligned and pauses efficiently.
+3. A variable timestep changes movement under CPU throttling. Fixed 1/60 s steps replay the same inputs to the same result.

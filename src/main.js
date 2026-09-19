@@ -1,34 +1,41 @@
 import "./style.css";
 import { createInput } from "./input.js";
 import { createLoop } from "./loop.js";
-import { wrap } from "./sim/arena.js";
-import { copyShip, createShip, integrate } from "./sim/ship.js";
+import { Ship } from "./sim/entities.js";
+import { World } from "./sim/world.js";
 import { setupCanvas } from "./render/canvas.js";
-import { drawBackground, drawHud, drawShip } from "./render/draw.js";
+import { drawWorld } from "./render/draw.js";
 
 const canvas = document.querySelector("canvas");
 const screen = setupCanvas(canvas);
 const input = createInput(window);
-let current = createShip(screen.width / 2, screen.height / 2);
-let previous = copyShip(current);
+let world;
+let ship;
 
-function reset() {
-  current = createShip(screen.width / 2, screen.height / 2);
-  previous = copyShip(current);
+function createWorld() {
+  world = new World(screen.width, screen.height);
+  ship = world.spawn(new Ship(world.safePosition()));
+  world.seedAsteroids();
+  const homingAsteroid = [...world.ofKind("asteroid")][0];
+  homingAsteroid.components.homing = {
+    targetId: ship.id,
+    speed: 90,
+    turn: 1.4,
+  };
 }
+
+createWorld();
 
 const loop = createLoop({
   simulate(dt) {
-    if (input.justPressed("KeyR")) reset();
-    previous = copyShip(current);
-    integrate(current, input, dt);
-    wrap(current, screen.width, screen.height);
+    if (input.justPressed("KeyR")) createWorld();
+    world.width = screen.width;
+    world.height = screen.height;
+    world.step(dt, input);
     input.endStep();
   },
   render(alpha, stats) {
-    drawBackground(screen.context, screen.width, screen.height);
-    drawShip(screen.context, previous, current, alpha);
-    drawHud(screen.context, stats);
+    drawWorld(screen.context, world, alpha, stats, ship);
   },
 });
 
