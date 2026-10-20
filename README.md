@@ -131,7 +131,7 @@ CI (`.github/workflows/ci.yml`) checks types, lint, formatting, tests/coverage, 
 
 `Dockerfile` uses a Node 24 Alpine multi-stage build, production-only dependencies, an unprivileged `node` user, a health check, and direct `node server/dist/index.js` startup so SIGTERM reaches Node. Release builds set `VERSION` to the tagged commit's Git SHA, which `/health` reports with uptime; `docker-compose.yml` is the local run. `/ready` returns 503 during shutdown, and `/metrics` reports players, rooms, message/byte rates, tick p99, event-loop utilization, RSS, rejected connections, and active sockets. WebSocket Origin is checked against the configured allowlist. Pino logs are structured and exclude chat content/secrets.
 
-Tag pushes `lab-*` and `v*` publish GHCR images through `.github/workflows/release.yml`. This workflow does not deploy to a live host; public hosting and a live `wss://` address are intentionally not part of this delivery. To deploy later, add a separately reviewed deployment workflow, choose a Docker host/domain, configure its secret and the allowed production Origin, then verify `/health`, `/ready`, and `wss://` from a second network.
+Pushing a `v*` release tag publishes a GHCR image through `.github/workflows/release.yml`; coursework `lab-*` tags do not publish images. This workflow does not deploy to a live host; public hosting and a live `wss://` address are intentionally not part of this delivery. To deploy later, add a separately reviewed deployment workflow, choose a Docker host/domain, configure its secret and the allowed production Origin, then verify `/health`, `/ready`, and `wss://` from a second network.
 
 ## Reflection prompts to rehearse
 
