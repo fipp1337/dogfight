@@ -1,5 +1,7 @@
 # Dogfight · JavaScript labs 1–8
 
+[![CI](https://github.com/fipp1337/dogfight/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/fipp1337/dogfight/actions/workflows/ci.yml)
+
 Small real-time arena game used to study the browser event loop, async loading, object models, Node streams, authoritative multiplayer, TypeScript, testing, and deployment. The browser is only a renderer/input client; the Node process owns rooms and simulation state.
 
 > Status: Labs 3–6 and the core Lab 7 test/load work are implemented. Local typecheck, lint, formatting, unit tests, and production build pass. Lab 7's browser Worker experiment did not show a responsiveness win, so the live game does not use it; a Chrome flame-chart and before/after browser profile remain outstanding. Lab 8's container, health/metrics endpoints, PWA shell, and release workflow are in place, but the local Docker daemon was unavailable for an image build. Public hosting is intentionally out of scope for this delivery; no live URL is claimed.
