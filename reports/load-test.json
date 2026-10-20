@@ -1,0 +1,50 @@
+{
+  "host": "http://127.0.0.1:3010",
+  "testedAt": "2026-10-16T23:12:44.797Z",
+  "stages": [
+    {
+      "clients": 8,
+      "rooms": 1,
+      "durationSeconds": 3,
+      "tickP99Ms": 1.1158000000000357,
+      "tickP99MedianMs": 1.1158000000000357,
+      "rssBytes": 78311424,
+      "eventLoopUtilizationMax": 0.13471429927157197,
+      "exceeded33ms": false,
+      "samples": 6
+    },
+    {
+      "clients": 32,
+      "rooms": 4,
+      "durationSeconds": 3,
+      "tickP99Ms": 0.588699999999335,
+      "tickP99MedianMs": 0.588699999999335,
+      "rssBytes": 83001344,
+      "eventLoopUtilizationMax": 0.23739786877564006,
+      "exceeded33ms": false,
+      "samples": 6
+    },
+    {
+      "clients": 64,
+      "rooms": 8,
+      "durationSeconds": 3,
+      "tickP99Ms": 0.6013000000002648,
+      "tickP99MedianMs": 0.6013000000002648,
+      "rssBytes": 84697088,
+      "eventLoopUtilizationMax": 0.30496647966776697,
+      "exceeded33ms": false,
+      "samples": 6
+    },
+    {
+      "clients": 128,
+      "rooms": 16,
+      "durationSeconds": 3,
+      "tickP99Ms": 0.40750000000116415,
+      "tickP99MedianMs": 0.3433999999997468,
+      "rssBytes": 105275392,
+      "eventLoopUtilizationMax": 0.4474737752332861,
+      "exceeded33ms": false,
+      "samples": 6
+    }
+  ]
+}

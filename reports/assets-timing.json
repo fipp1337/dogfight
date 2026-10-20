@@ -1,0 +1,17 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "measuredAt": "2026-10-16T23:13:03.820Z",
+  "sequential": {
+    "mode": "sequential",
+    "elapsedMs": 19.53,
+    "totalBytes": 31933,
+    "files": 7
+  },
+  "concurrent": {
+    "mode": "concurrent",
+    "elapsedMs": 7.19,
+    "totalBytes": 31933,
+    "files": 7
+  },
+  "speedup": 2.72
+}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta
+      name="description"
+      content="Dogfight — a tiny real-time multiplayer space game."
+    />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <title>Dogfight — Космічний бій</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game" aria-label="Поле космічної гри"></canvas>
+      <section id="overlay" class="overlay" aria-live="polite"></section>
+      <section class="help" aria-label="Керування">
+        <span><kbd>←</kbd><kbd>→</kbd> поворот</span>
+        <span><kbd>↑</kbd> газ</span>
+        <span><kbd>Space</kbd> постріл</span>
+        <span><kbd>R</kbd> лобі</span>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

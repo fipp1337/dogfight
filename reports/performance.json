@@ -1,0 +1,18 @@
+{
+  "simulatedSeconds": 30,
+  "bots": 8,
+  "steps": 900,
+  "entitiesAtEnd": 27,
+  "tickDurationMs": {
+    "p50": 0.020000000000010232,
+    "p95": 0.06630000000001246,
+    "p99": 0.23969999999999914,
+    "max": 0.6507000000000005
+  },
+  "memory": {
+    "rssAtStartBytes": 58785792,
+    "rssAtEndBytes": 68833280,
+    "heapAtEndBytes": 12828744
+  },
+  "note": "Offline deterministic simulation benchmark; timing is not a browser frame profile."
+}

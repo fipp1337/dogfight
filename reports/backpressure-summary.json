@@ -1,0 +1,10 @@
+{
+  "fileBytes": 209736800,
+  "requestedMegabytes": 200,
+  "elapsedSeconds": 20.61,
+  "rssStartBytes": 56213504,
+  "rssPeakBytes": 95854592,
+  "rssDeltaBytes": 39641088,
+  "samples": 189,
+  "note": "Server streams with createReadStream + pipeline; the slow sink consumes chunks without buffering the whole replay."
+}

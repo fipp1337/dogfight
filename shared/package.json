@@ -1,0 +1,17 @@
+{
+  "name": "@dogfight/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./protocol": "./dist/protocol/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

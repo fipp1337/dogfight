@@ -1,0 +1,31 @@
+{
+  "sprites": [
+    {
+      "id": "ship",
+      "url": "/assets/ship-sheet.svg",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "required": true
+    },
+    {
+      "id": "asteroid",
+      "url": "/assets/asteroid-sheet.svg",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "required": true
+    },
+    {
+      "id": "bullet",
+      "url": "/assets/bullet-sheet.svg",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "required": true
+    }
+  ],
+  "sounds": [
+    { "id": "fired", "url": "/assets/fired.wav", "required": false },
+    { "id": "hit", "url": "/assets/hit.wav", "required": false },
+    { "id": "exploded", "url": "/assets/exploded.wav", "required": false }
+  ],
+  "data": [{ "id": "arena", "url": "/assets/arena.json", "required": true }]
+}

@@ -1,0 +1,30 @@
+{
+  "mainThread": {
+    "bots": 8,
+    "steps": 900,
+    "simulatedSeconds": 30,
+    "tickMs": {
+      "p50": 0,
+      "p95": 0.10000002384185791,
+      "p99": 0.20000004768371582,
+      "max": 0.6000000238418579
+    },
+    "wallMs": 22.399999976158142,
+    "maxFrameGapMs": 7.30000004768371
+  },
+  "worker": {
+    "bots": 8,
+    "steps": 900,
+    "simulatedSeconds": 30,
+    "tickMs": {
+      "p50": 0,
+      "p95": 0.10000002384185791,
+      "p99": 0.2999999523162842,
+      "max": 1.0999999046325684
+    },
+    "wallMs": 69.39999997615814,
+    "maxFrameGapMs": 16.700000000000045,
+    "workerExecutionMs": 33.5
+  },
+  "conclusion": "This run did not show a responsiveness improvement from the Worker; keep the workload on the main thread unless repeated profiles show otherwise."
+}

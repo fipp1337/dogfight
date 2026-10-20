@@ -1,0 +1,187 @@
+:root {
+  color: #e5efff;
+  background: #050b14;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+main {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: radial-gradient(circle at 50% 45%, #10294b, #050a12 72%);
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(2, 8, 16, 0.52);
+  backdrop-filter: blur(5px);
+}
+.overlay-transparent {
+  pointer-events: none;
+  place-items: start end;
+  padding: 14px;
+  background: transparent;
+  backdrop-filter: none;
+}
+.overlay-transparent .panel {
+  width: min(360px, calc(100vw - 28px));
+  pointer-events: auto;
+  padding: 18px;
+  background: rgba(8, 19, 35, 0.86);
+}
+.overlay-transparent .panel h2 {
+  font-size: 17px;
+}
+.overlay-transparent .panel p {
+  margin: 7px 0;
+  font-size: 12px;
+}
+.overlay-transparent .panel button {
+  padding: 8px;
+  margin-top: 8px;
+}
+.overlay-transparent .chat form {
+  margin-top: 8px;
+}
+.panel {
+  width: min(100%, 460px);
+  padding: 28px;
+  border: 1px solid rgba(125, 181, 255, 0.28);
+  border-radius: 18px;
+  background: rgba(8, 19, 35, 0.94);
+  box-shadow: 0 24px 90px #0009;
+}
+.panel h1,
+.panel h2 {
+  margin: 0 0 12px;
+  letter-spacing: 0.02em;
+}
+.panel p {
+  color: #a8bdd6;
+  line-height: 1.5;
+}
+.panel label {
+  display: block;
+  margin: 16px 0 6px;
+  color: #aac2df;
+  font-size: 13px;
+}
+.panel input,
+.panel select,
+.panel button {
+  width: 100%;
+  border: 1px solid #355170;
+  border-radius: 9px;
+  padding: 11px 12px;
+  background: #0b1b2e;
+  color: #f1f7ff;
+  font: inherit;
+}
+.panel button {
+  margin-top: 14px;
+  border: 0;
+  background: linear-gradient(120deg, #2487d8, #2cbba4);
+  font-weight: 700;
+  cursor: pointer;
+}
+.panel button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+.panel button.secondary {
+  border: 1px solid #355170;
+  background: transparent;
+  color: #bfd4ee;
+}
+.panel .status {
+  min-height: 1.4em;
+  color: #ffcf78;
+  font-size: 13px;
+}
+.progress {
+  height: 12px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #152940;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #39d1ba, #56a9ff);
+  transition: width 0.12s linear;
+}
+.room-meta {
+  color: #93aac4;
+  font-size: 12px;
+}
+.help {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #9db5d4;
+  font-size: 12px;
+  pointer-events: none;
+}
+kbd {
+  border: 1px solid #54759e;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: #e9f4ff;
+  margin-right: 3px;
+  padding: 1px 5px;
+}
+.chat {
+  max-height: 130px;
+  margin-top: 12px;
+  overflow-y: auto;
+  color: #bdd1e8;
+  font-size: 12px;
+}
+.chat form {
+  display: flex;
+  gap: 8px;
+}
+.chat form input {
+  flex: 1;
+}
+.chat form button {
+  width: auto;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .panel {
+    padding: 21px;
+  }
+  .help {
+    left: 12px;
+    bottom: 10px;
+    gap: 7px;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,19 @@
+services:
+  dogfight:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      HOST: 0.0.0.0
+      LOG_DIR: /app/logs
+      ALLOWED_ORIGINS: http://localhost:3000
+    volumes:
+      - dogfight-logs:/app/logs
+    init: true
+    restart: unless-stopped
+
+volumes:
+  dogfight-logs:

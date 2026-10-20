@@ -1,0 +1,34 @@
+{
+  "rooms": [
+    {
+      "id": "alpha",
+      "name": "Blue Nebula",
+      "width": 1000,
+      "height": 700,
+      "seed": 42810,
+      "maxPlayers": 8,
+      "players": 0,
+      "running": false
+    },
+    {
+      "id": "beta",
+      "name": "Red Dwarf",
+      "width": 900,
+      "height": 640,
+      "seed": 99231,
+      "maxPlayers": 8,
+      "players": 0,
+      "running": false
+    },
+    {
+      "id": "gamma",
+      "name": "Deep Space",
+      "width": 1200,
+      "height": 760,
+      "seed": 17301,
+      "maxPlayers": 8,
+      "players": 0,
+      "running": false
+    }
+  ]
+}

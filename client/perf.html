@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <title>Dogfight · Web Worker experiment</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #07111f;
+        color: #e4efff;
+      }
+      body {
+        max-width: 760px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+      }
+      p {
+        color: #9fb7d3;
+        line-height: 1.6;
+      }
+      button {
+        border: 0;
+        border-radius: 0.7rem;
+        padding: 0.8rem 1.1rem;
+        background: #48d0b6;
+        color: #07111f;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      pre {
+        min-height: 12rem;
+        padding: 1rem;
+        overflow: auto;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        border: 1px solid #29425f;
+        border-radius: 0.7rem;
+        background: #0b1929;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Web Worker: 8-bot simulation experiment</h1>
+      <p>
+        Runs the same deterministic 900-step simulation on the page thread and
+        in a Worker. The page records both wall time and the longest
+        animation-frame gap. This is an experiment, not the production game
+        loop.
+      </p>
+      <button id="run" type="button">Run benchmark</button>
+      <pre id="result" aria-live="polite">Waiting for benchmark…</pre>
+    </main>
+    <script type="module" src="/src/perf-page.ts"></script>
+  </body>
+</html>

@@ -1,21 +1,52 @@
 {
-  "name": "dogfight",
+  "name": "dogfight-monorepo",
   "private": true,
-  "version": "1.0.0",
   "type": "module",
+  "workspaces": [
+    "client",
+    "shared",
+    "server"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint .",
+    "dev": "npm run build -w @dogfight/shared && concurrently -k -n server,client -c cyan,green \"npm:dev -w @dogfight/server\" \"npm:dev -w @dogfight/client\"",
+    "build": "npm run build -w @dogfight/shared && npm run build -w @dogfight/server && npm run build -w @dogfight/client",
+    "start": "node server/dist/index.js",
+    "typecheck": "npm run build -w @dogfight/shared && node scripts/typecheck.mjs",
+    "lint": "eslint client/src shared/src server/src tests",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run --coverage",
+    "test:e2e": "npm run build && playwright test",
+    "loadtest": "npm run build && node scripts/load-test.mjs",
+    "perf": "npm run build -w @dogfight/shared && node scripts/perf-report.mjs",
+    "memory:demo": "node scripts/backpressure-demo.mjs",
+    "bench:assets": "node scripts/asset-benchmark.mjs",
+    "bench:protocol": "npm run build -w @dogfight/shared && node scripts/protocol-report.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "pino": "^9.7.0",
+    "ws": "^8.18.3",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "eslint": "^9.0.0",
-    "globals": "^16.0.0",
-    "prettier": "^3.0.0",
-    "vite": "^7.0.0"
+    "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.10.0",
+    "@types/ws": "^8.18.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.1",
+    "fast-check": "^4.3.0",
+    "gifenc": "^1.0.3",
+    "globals": "^16.5.0",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vite": "^7.1.12",
+    "vitest": "^5.0.5"
   }
 }
